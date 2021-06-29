@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "flexslider@2.7.2",
+      "destination": "wwwroot/flexslider/"
+    }
+  ]
+}

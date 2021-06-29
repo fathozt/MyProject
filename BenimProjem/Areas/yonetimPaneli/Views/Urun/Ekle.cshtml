@@ -1,0 +1,71 @@
+﻿@model UrunEkleDuzenleVM
+@{
+    string id = null;
+    if (ViewContext.RouteData.Values["id"] != null)
+    {
+        id = ViewContext.RouteData.Values["id"].ToString();
+    }
+}
+<h1>Urun@(id==null ? "Ekle" : "Duzenle") </h1>
+
+
+<form asp-action="Ekle" asp-controller="Urun" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label>Urun Adı</label>
+        <input type="text" class="form-control" asp-for="UrunAdi">
+        <small class="form-text text-muted"><span asp-validation-for="UrunAdi"></span></small>
+    </div>
+    <div class="form-group">
+        <label>Kategori</label>
+        <select class="form-control" asp-for="KategoriId" asp-items="@(new SelectList(ViewBag.Kategoriler,"Id","KategoriAdi"))">
+        </select>
+        <small class="form-text text-muted"><span asp-validation-for="KategoriId" style="color:red;"></span></small>
+    </div>
+    <div class="form-group">
+        <label>Marka</label>
+        <select class="form-control" asp-for="MarkaId" asp-items="@(new SelectList(ViewBag.Markalar, "Id", "MarkaAdi"))">
+        </select>
+        <small class="form-text text-muted"><span asp-validation-for="MarkaId" style="color:red;"></span></small>
+    </div>
+    <div class="form-group">
+        <label>Fiyat</label>
+        <input type="text" class="form-control" asp-for="UrunFiyati">
+        <small class="form-text text-muted"><span asp-validation-for="UrunFiyati"></span></small>
+    </div>
+    <div class="form-group">
+        <label>Stok Adeti</label>
+        <input type="text" class="form-control" asp-for="StokAdeti">
+        <small class="form-text text-muted"><span asp-validation-for="StokAdeti"></span></small>
+    </div>
+    <div class="form-group">
+        <label>Uretim Tarihi</label>
+        <input type="date" class="form-control" asp-for="UretimTarihi">
+        <small class="form-text text-muted"><span asp-validation-for="UretimTarihi"></span></small>
+    </div>
+    <label>Resimler</label>
+    <div class="input-group is-invalid">
+        <div class="custom-file">
+
+            <input type="file" class="custom-file-input" id="txtgorseller" name="files" multiple required accept="image/x-png,image/gif,image/jpeg,image/jpg">
+            <label class="custom-file-label" id="btnGorselSec">Görsel Seç</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <ul id="dosyalar">
+            
+        </ul>
+    </div>
+    <button type="submit" class="btn btn-primary">Urun@(id == null ? "Ekle" : "Güncelle")</button>
+
+</form>
+
+<script>
+    $('input:file').change(
+        function (e) {
+            for (var i = 0; i < e.target.files.length; i++) {
+                $("#dosyalar").append("<li>" + e.target.files[i].name + "</li>")
+            }
+        });
+</script>
+
+

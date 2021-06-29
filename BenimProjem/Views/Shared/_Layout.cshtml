@@ -1,0 +1,63 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Anasahife</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" asp-action="Index" asp-controller="Home"><strong>Anasayfa</strong></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-action="Index" asp-controller="Urun">Urunler <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+            @if (!User.Identity.IsAuthenticated)
+            {
+
+                <a asp-action="GirisYap" asp-controller="User" class="btn btn-outline-primary" style="margin-left:10px">Giriş yap</a>
+                <a asp-action="KayitOl" asp-controller="User" class="btn btn-outline-info" style="margin-left:10px">Kayıt ol</a>
+            }
+            else
+            {
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <strong>@User.Identity.Name</strong>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-left" style="right:0;left:auto" aria-labelledby="dropdownMenuButton">
+                        <a asp-action="CikisYap" asp-controller="User" class="dropdown-item btn btn-warning" style="color:red">Çıkış Yap</a>
+                        <a class="dropdown-item btn-outline-secondary " asp-action="Index" asp-controller="Home" asp-area="yonetimPaneli">Yönetim Paneli</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-3">
+            <partial name="~/Views/Partials/KategoriPartial.cshtml" />
+        </div>
+
+        <div class="col-lg-6">
+            <div class="demo-content bg-alt">
+                @RenderBody()
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="demo-content">.col-lg-2</div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+

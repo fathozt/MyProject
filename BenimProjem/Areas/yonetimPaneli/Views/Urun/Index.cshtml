@@ -1,0 +1,34 @@
+﻿@model List<UrunListeVM>
+
+<h1>Urun Index</h1>
+
+<a class="btn btn-primary" asp-action="Ekle" asp-controller="Urun" style="margin-bottom:10px">Urun Ekle</a>
+<table class="table table-bordered table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Urun Adi</th>
+            <th scope="col">Urun Fiyati</th>
+            <th scope="col">Marka</th>
+            <th scope="col">Kategori</th>
+            <th scope="col">Stok Adeti</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var urun in Model)
+        {
+            <tr>
+                <td>@urun.UrunAdi</td>
+                <td>@urun.UrunFiyati</td>
+                <td>@urun.MarkaAdi</td>
+                <td>@urun.KategoriAdi</td>
+                <td>@urun.StokAdet</td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Ekle" asp-controller="Urun" asp-route-id="@urun.Id">Düzenle</a>
+                    <a asp-action="Sil" asp-controller="Urun" asp-route-id="@urun.Id" class="btn btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

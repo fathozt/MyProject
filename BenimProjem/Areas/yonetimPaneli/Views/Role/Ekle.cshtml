@@ -1,0 +1,17 @@
+﻿@model AppRoleEkleVM
+@{
+    ViewData["Title"] = "Ekle";
+    Layout = "~/Areas/yonetimPaneli/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Rol Ekle</h1>
+
+<form asp-action="Ekle" asp-controller="Role" asp-area="yonetimPaneli" method="post">
+    <div class="form-group">
+        <label>Rol Adı</label>
+        <input type="text" class="form-control" asp-for="Name">
+        <small class="form-text text-muted"><span asp-validation-for="Name"></span></small>
+    </div>
+    <button type="submit" class="btn btn-primary">Rol Ekle</button>
+
+</form>

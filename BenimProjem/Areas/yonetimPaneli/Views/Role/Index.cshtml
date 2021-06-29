@@ -1,0 +1,32 @@
+﻿@model List<AppRoleListeVM>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/yonetimPaneli/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Role Index</h1>
+
+<a class="btn btn-primary" asp-action="Ekle" asp-controller="Role" asp-area="yonetimPaneli" style="margin-bottom:10px">Rol Ekle</a>
+<table class="table table-bordered table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Role Adı</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Ekle" asp-controller="Role" asp-route-id="@role.Id">Düzenle</a>
+                    <a asp-action="Sil" asp-controller="Role" asp-route-id="@role.Id" class="btn btn-danger">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+

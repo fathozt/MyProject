@@ -1,0 +1,16 @@
+﻿<div class="demo-content" style="margin-left:10px;margin-top:10px">
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a asp-controller="Urun" asp-action="Index">Tüm Ürünler</a>
+            <span class="badge badge-primary badge-pill">@((ViewBag.Kategoriler as List<KategoriListeVM>).Sum(k=> k.UrunAdet) )</span>
+        </li>
+
+        @foreach (var kategori in ViewBag.Kategoriler as List<KategoriListeVM>)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a asp-controller="Urun" asp-action="Index" asp-route-kategoriId="@kategori.Id">@kategori.KategoriAdi</a>
+                <span class="badge badge-primary badge-pill">@kategori.UrunAdet</span>
+            </li>
+        }
+    </ul>
+</div>

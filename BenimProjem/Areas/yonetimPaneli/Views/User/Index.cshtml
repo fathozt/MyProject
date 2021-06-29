@@ -1,0 +1,66 @@
+﻿@model List<AppUserListeVM>
+@{
+    ViewData["Title"] = "Inde";
+    var currentUserName = Context.User.Identity.Name;
+    var isInRole  = Context.User.IsInRole("Administrator");
+}
+
+<h1>Yönetim Paneli Tüm Kullanıcılar</h1>
+
+<table class="table table-bordered table-dark">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Roles</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Username</td>
+                <td>@user.Email</td>
+                <td>
+                    @{
+                        List<string> turler = new List<string> { "primary", "secondary", "success", "danger", "warning", "info", "light", "dark" };
+                    }
+                    @foreach (var rol in user.Roller)
+                    {
+                        string txt = "";
+                        switch (rol)
+                        {
+                            case "Administrator":
+                                txt = "primary";
+                                break;
+                            case "Moderator":
+                                txt = "secondary";
+                                break;
+                            case "Editor":
+                                txt = "success";
+                                break;
+                            case "User":
+                                txt = "danger";
+                                break;
+                            default:
+                                break;
+                        }
+                        <span class="badge badge-pill badge-@txt">@rol</span>
+                    }
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a class="btn btn-warning" asp-action="RolAta" asp-controller="User" asp-route-id="@user.Id">Rol Ata</a>
+                        <a asp-action="DeleteUser" asp-controller="User" asp-route-id="@user.Id" class="btn btn-danger">Sil</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

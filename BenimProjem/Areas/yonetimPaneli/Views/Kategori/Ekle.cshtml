@@ -1,0 +1,19 @@
+﻿@model KategoriEkleVeDuzenleVM
+@{
+    string id = null;
+    if (ViewContext.RouteData.Values["id"] != null)
+    {
+        id = ViewContext.RouteData.Values["id"].ToString();
+    }
+}
+<h1> Kategori Ekle</h1>
+
+<form asp-action="Ekle" asp-controller="Kategori" method="post">
+    <div class="form-group">
+        <label>Kategori Adı</label>
+        <input type="text" class="form-control" asp-for="KategoriAdi">
+        <small class="form-text text-muted"><span asp-validation-for="KategoriAdi"></span></small>
+    </div>
+    <button type="submit" class="btn btn-primary">Kategori@(id == null ? "Ekle" : "Güncelle")</button>
+    
+</form>

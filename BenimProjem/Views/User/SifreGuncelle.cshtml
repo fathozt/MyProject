@@ -1,0 +1,32 @@
+﻿@model AppUserSifreGuncelleVM
+@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+<h1>SifreGuncelle</h1>
+
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6"><partial name="~/Views/Partials/MesajlarPartial.cshtml" /></div>
+    <div class="col-md-3"></div>
+</div>
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <form asp-action="SifreGuncelle" asp-controller="User" method="post" style="margin:0 auto;float:none;">
+            <div class="form-group">
+                <label>Yeni Şifre</label>
+                <input type="password" asp-for="Password" class="form-control" placeholder="Yeni şifre...">
+                <small class="form-text text-muted"><span asp-validation-for="Password" style="color:red"></span></small>
+            </div>
+            <div class="form-group">
+                <label>Yeni Şifre Tekrar</label>
+                <input type="password" asp-for="PasswordConfirm" class="form-control" placeholder="Yeni Şifre Tekrar...">
+                <small class="form-text text-muted"><span asp-validation-for="PasswordConfirm" style="color:red"></span></small>
+            </div>
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+</div>
+

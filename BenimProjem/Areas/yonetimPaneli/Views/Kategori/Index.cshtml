@@ -1,0 +1,136 @@
+﻿@model List<KategoriListeVM>
+
+<h1>Kategori Index</h1>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="divModalBody" class="modal-body">
+                <ul class="list-group" id="urunListe">
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-outline-danger" id="tamamenSil" data-dismiss="modal">Kategoriyi ürünlerle beraber sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a class="btn btn-primary" asp-action="Ekle" asp-controller="Kategori" style="margin-bottom:10px">Kategori Ekle</a>
+<table class="table table-bordered table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Kategori Adı</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kategori in Model)
+        {
+            <tr class="@kategori.Id">
+                <td>@kategori.KategoriAdi</td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Ekle" asp-controller="Kategori" asp-route-id="@kategori.Id">Düzenle</a>
+                    <button class="btn btn-danger" data-target="#exampleModal" value="@kategori.Id">Sil</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    var katId = "";
+    var katAdi = "";
+    $(".btn-danger").click(function () {
+        katId = $(this).val();
+        katAdi = $(this).parent("td").siblings().text();
+        $.get('@Url.Action("SilKontrol","Kategori")/' + katId, data => {
+
+            if (data.any) {
+                $('#exampleModal').modal("show");
+                $("#exampleModalLabel").html(katAdi + " isimili kategoriye ait ürünler");
+
+                let urunListesi = "";
+                $.each(data.urunler, (key, value) => {
+                    urunListesi += "<li class=\"list-group-item\" id=\"urun-" + value.id + "\">";
+                    urunListesi += "<label class=\"urun\" style=\"padding:10px\">" + value.urunAdi + "</label>";
+                    urunListesi += "<a href=\"#\" role=\"button\" class=\"btn btn-danger\" id=\"btnSil\" data-id=" + value.id + ">Sil</a>";
+                    urunListesi += "<a href=\"#\" role=\"button\" class=\"btn btn-warning\" id=\"btnDuzenle\" data-id=" + value.id + ">Duzenle</a>";
+                    urunListesi += "<input type=\"hidden\" class=\"hidden\" value=\"" + value.kategoriId +"\" />"
+                    urunListesi += "<br />";
+                    urunListesi += "</li > ";
+                })
+                $("#urunListe").html(urunListesi)
+            } else if (!data.any) {
+                $('#exampleModal').modal("show");
+                $.confirm({
+                    title: 'Onay',
+                    content: data.kategoriAdi +' isimli kategoriyi silmek istiyor musunuz?',
+                    buttons: {
+                        confirm: function () {
+                            $.get('@Url.Action("Sil", "Kategori")/' + katId, data => {
+                                if (data.result) {
+                                    $("[class = " + katId + " ]").fadeOut(500);
+                                    $.alert(data.kategoriAdi + " isimli kategori başarıyla silinmiştir")
+                                }
+                            })
+                        },
+                        cancel: function () { }
+                    }
+                })
+            }
+        })
+    })
+
+    $("#tamamenSil").on("click", function () {
+         $.confirm({
+              title: 'Onay',
+              content: katAdi + ' isimli kategoriyi silmek istiyor musunuz?',
+              buttons: {
+                   confirm: function () {
+                      $.get('@Url.Action("Sil", "Kategori")/' + katId, data => {
+                      if (data.result) {
+                           $("[class = " + katId + " ]").fadeOut(500);
+                           $.alert(data.kategoriAdi + " isimli kategori başarıyla silinmiştir")
+                          }
+                      })
+                   },
+                   cancel: function () {}
+              }
+         })
+    })
+
+    $("#exampleModal").on("click", "#btnSil", function () {
+        var urunId = $(this).attr("data-id");
+        var urunAdi = $(this).siblings(".urun").text();
+        $.confirm({
+            title: "Onay",
+            content: urunAdi + " adlı ürünüsilmek istedğinize eminmisiniz?",
+            buttons: {
+                confirm: function () {
+                    $.get('@Url.Action("Sil","Urun")/' + urunId, data => {
+                        if (data) {
+                            $("#urun-" + urunId).fadeOut(500, function () {
+                                $("#urunListe").remove("#urun-" + urunId);
+                            })
+                        }
+                    })
+                },
+                cancel: function () {}
+            }
+        })
+    })
+
+    $("#exampleModal").on("click", "#btnDuzenle", function () {
+        var urunid = $(this).attr("data-id");
+        var url = "/yonetim-paneli/Urun/Ekle/" + urunid;
+        window.location.href = url;
+    })
+</script>

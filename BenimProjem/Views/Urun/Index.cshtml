@@ -1,0 +1,48 @@
+﻿@model List<AnasayfaUrunleriListeleVM>
+
+<h1>Urun Index</h1>
+
+<div class="row">
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="card mr-3 mb-3" style="width: 18rem;">
+            <div id="carouselExampleControls@(i)" class="carousel slide card-header" data-ride="carousel">
+                <div class="carousel-inner">
+                    @foreach (var item in Model[i].Resimler)
+                    {
+                        if (item == Model[i].Resimler[0])
+                        {
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" height="200" src="~/Images/@item" alt="Slide@(i)">
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="carousel-item">
+                                <img class="d-block w-100" height="200" width="200" src="~/Images/@item" alt="Slide@(i)">
+                            </div>
+                        }
+                    }
+
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls@(i)" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls@(i)" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <div class="card-body">
+                <h3 class="card-title">@Model[i].Adi</h3>
+                <p class="card-text">@Model[i].Fiyat</p>
+                <a href="#" class="btn btn-primary">Sepete Ekle</a>
+            </div>
+        </div>
+    }
+
+</div>
+
+
+
