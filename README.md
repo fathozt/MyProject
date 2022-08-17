@@ -5,3 +5,5 @@ It is build with .Net Core. Just basic CRUD operations. Has a control panel that
 I used Repository desing pattern for this project to write less code and to bring a standart.
 
 Used code first approach to create database with MSSQL.
+
+Unfortunately I am no longer studying .Net core anymore. But it was a fun learning to me.  
